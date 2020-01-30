@@ -1,0 +1,30 @@
+[
+    
+    {"start": "A", "words":["alligator","anglefish","albatross","ant","ape","aardvark","alpaca","anteater","antelope","armadillo"]},
+    {"start": "B", "words":["bat","bear","bulbul","blue Whale","bobcat","bee","buffalo","butterfly","bull","baboon","badger","barracuda","beaver","binturong","bison","bluebird","boar"]},
+    {"start": "C", "words":["cat","crow","crab","conch","cheetah","chimpanzee","chicken","cow","coyote","camel","capybara","caracal","caribou","cassowary","caterpillar","cattle","chameleon","chamois","chinchilla","crane","crocodile","cuckoo"]},
+    {"start": "D", "words":["dog","dolphin","deer","duck","dove","donkey","degu","dinosaur","dogfish","dragonfly","dugong","dunlin"]},
+    {"start": "E", "words":["elephant","eagle","eel","elk","emu","echidna","eland"]},
+    {"start": "F", "words":["fish","fox","flamingo","falcon","ferret","finch","fly","frog"]},
+    {"start": "G", "words":["goat","goose","gorilla","giraffe","gazelle","gaur","goldfinch","goosander","grasshopper","gorilla"]},
+    {"start": "H", "words":["horse","heron","hummingbird","hippopotamus","hen","hyena","hawk","hamster","hare","hedgehog","heron","hornet"]},
+    {"start": "I", "words":["ibis","isopod","iguana","ibex","impala"]},
+    {"start": "J", "words":["jackal","jelly fish","jaguar","jerboa","jay"]},
+    {"start": "K", "words":["kangaroo","kiwi","killer whale","kinkajou","koala","kudu","kouprey","kookaburra","komodo dragon"]},
+    {"start": "L", "words":["lion","lobster","leopard","lapwing","lark","lemur","lizard","lamb","locust","loris"]},
+    {"start": "M", "words":["monkey","macaw","manta ray","mandrill","mongoose","mole","moose","mosquito","mouse","myna"]},
+    {"start": "N", "words":["nilgai","nightingale","needle fish"]},
+    {"start": "O", "words":["orangutan","ostrich","octopus","owl","oyster"]},
+    {"start": "P", "words":["pig","parrot","peacock","pigeon","penguin","prawn","panther","panda","peacock","peahen","pheasant","polar bear"]},
+    {"start": "Q", "words":["quoll","quail"]},
+    {"start": "R", "words":["raccoon","rat","rabbit","robin","rhinoceros","raven"]},
+    {"start": "S", "words":["sheep","swan","stingray","seahorse","snail","snake","seal","sea cow","squirrel","shark"]},
+    {"start": "T", "words":["tiger","tern","turkey","turtle","tortoise"]},
+    {"start": "U", "words":["ruial","umbrella bird"]},
+    {"start": "V", "words":["vole","vulture"]},
+    {"start": "W", "words":["wolf","woodpecker","wagtail","whale"]},
+    {"start": "X", "words":["xenopus"]},
+    {"start": "Y", "words":["yak","yabby"]},
+    {"start": "Z", "words":["zebra","zebu","zebra fish","zebra finch"]}
+    
+    ]
