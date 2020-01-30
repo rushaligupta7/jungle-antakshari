@@ -1,0 +1,275 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "word antakshari",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "i'm tired of playing",
+                        "i'm done",
+                        "stop playing",
+                        "i don't want to play the game anymore",
+                        "stop playing now",
+                        "i want to stop playing",
+                        "now stop ",
+                        "bye bye"
+                    ]
+                },
+                {
+                    "name": "AnimalsAndBirdsIntent",
+                    "slots": [
+                        {
+                            "name": "animals_and_birds",
+                            "type": "animals"
+                        },
+                        {
+                            "name": "Number_of_Players",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "i am {Number_of_Players} player",
+                        "i am only {Number_of_Players} player",
+                        "yes we are {Number_of_Players} players",
+                        "yes i am {Number_of_Players}",
+                        "we are {Number_of_Players} players",
+                        "{Number_of_Players} number of players",
+                        "{Number_of_Players} player",
+                        "{Number_of_Players} players",
+                        "{animals_and_birds}"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "FruitsAndVegetablesIntent",
+                    "slots": [
+                        {
+                            "name": "fruits_and_vegetables",
+                            "type": "fruits_and_vegetables"
+                        }
+                    ],
+                    "samples": [
+                        "{fruits_and_vegetables}"
+                    ]
+                },
+                {
+                    "name": "CategoryIntent",
+                    "slots": [
+                        {
+                            "name": "category",
+                            "type": "categoryType"
+                        }
+                    ],
+                    "samples": [
+                        "{category}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "animals",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "cheetah"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "tiger"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lion"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "rabbit"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cat"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dog"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "fruits_and_vegetables",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "pepper"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "capcisum"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "garlic"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ginger"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "eggplant"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cabbage"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "peas"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "potato"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "onion"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cassava"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "jackfruit"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "mangoes"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "watermelon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "coconut"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "pineapple"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "avocado"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "passion fruit"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sweet potato"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "tomato"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "mango"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "papaya"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "banana"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "apple"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "guava"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "categoryType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "fruit",
+                                "synonyms": [
+                                    "vegetables and fruits",
+                                    "vegetable and fruit",
+                                    "fruits and vegetables",
+                                    "fruit and vegetable",
+                                    "vegetables",
+                                    "fruits"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "animal",
+                                "synonyms": [
+                                    "animals",
+                                    "animals birds",
+                                    "animal bird",
+                                    "birds",
+                                    "birds and animals",
+                                    "animals and birds"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
