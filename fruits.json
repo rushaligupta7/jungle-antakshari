@@ -1,0 +1,30 @@
+[
+    
+    {"start": "A", "words":["apple","apricot","asparagus","avocado","artichoke"]},
+    {"start": "B", "words":["banana","brinjal","beetroot","beans","bootlegourd","brussels sprout","broccoli","butternut squash","blackberry","blackcurrent","blueberry","bread fruit",""]},
+    {"start": "C", "words":["carrot","cabbage","cauliflower","clementine","cherry","cucumber","courgette","cashewnut","carambola","coconut","cranberry","custard apple"]},
+    {"start": "D", "words":["dragon fruit","date","drumsticks","durian"]},
+    {"start": "E", "words":["elderberry","endive"]},
+    {"start": "F", "words":["fennel","fig","feijoa"]},
+    {"start": "G", "words":["grapes","garlic","ginger","guava","groundnut","gooseberry","grape fruit"]},
+    {"start": "H", "words":[""]},
+    {"start": "I", "words":[""]},
+    {"start": "J", "words":["jackfruit","jujube","jamun"]},
+    {"start": "K", "words":["kiwi"]},
+    {"start": "L", "words":["lettuce","leek","lemon"]},
+    {"start": "M", "words":["mango","melon","muskmelon","mushroom"]},
+    {"start": "N", "words":["nectarine","nut",""]},
+    {"start": "O", "words":["orange","olive"]},
+    {"start": "P", "words":["peanut","peas","pear","pepper","pineapple","pumpkin","plum"]},
+    {"start": "Q", "words":["quince"]},
+    {"start": "R", "words":["radish","raisin","rhubarb"]},
+    {"start": "S", "words":["satsuma","strawberry","sweet potato",""]},
+    {"start": "T", "words":["tomato","turnip","turmeric",""]},
+    {"start": "U", "words":["ugli fruit"]},
+    {"start": "V", "words":[""]},
+    {"start": "W", "words":["watercress","watermelon"]},
+    {"start": "X", "words":[""]},
+    {"start": "Y", "words":["yam"]},
+    {"start": "Z", "words":["zucchini"]}
+    
+    ]
