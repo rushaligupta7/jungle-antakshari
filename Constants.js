@@ -81,10 +81,10 @@ var Constants = /** @class */ (function () {
     Constants.WRONG_RESPONSE=[" ooooo.... you were playing good dude!"," sorry you're out dear"," that was an easy one....you missed it","  better luck next time"," i enjoyed your company"," see you next time"," ohoo..you got it wrong"," aiiyoooo...wrong wrong wrong"," its a wrong one!"];
     Constants.RESULT_MESSAGE=" time for result now ! your score is ";
     Constants.END_MESSAGE=" thank you for playing!";
-    
-    
-    
-    
+    Constants.START_PROMPTS=["let me think something ,mmmmm ", " it can be ","i will say "];
+    Constants.SKIP_PROMPTS=["hmmm, let me try ", " ok i will go with ","yay , i know , its a "];
+    Constants.REPROMT_MESSAGE1=["tick tok tick.....fast "," time is running a marathon ", "come on come on  ", " hurry up partner ", " do not overthink "," you can do it "," go ahead "];
+    Constants.REPROMT_MESSAGE2=["start with ","last letter was ","say with ", " try with ","you have to start with "," find the one starting with "];
     
     
     
