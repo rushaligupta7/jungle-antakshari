@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "word antakshari",
+            "invocationName": "jungle antakshari",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
@@ -14,6 +14,14 @@
                 {
                     "name": "AMAZON.StopIntent",
                     "samples": [
+                        "not at all",
+                        "nopes",
+                        "nope",
+                        "no i don't want to play again",
+                        "no that's okay",
+                        "no thanks",
+                        "no thank you",
+                        "no",
                         "i'm tired of playing",
                         "i'm done",
                         "stop playing",
@@ -37,6 +45,9 @@
                         }
                     ],
                     "samples": [
+                        "please {animals_and_birds} this",
+                        "yes i am {animals_and_birds}",
+                        "please {animals_and_birds}",
                         "i am {Number_of_Players} player",
                         "i am only {Number_of_Players} player",
                         "yes we are {Number_of_Players} players",
@@ -53,27 +64,16 @@
                     "samples": []
                 },
                 {
-                    "name": "FruitsAndVegetablesIntent",
-                    "slots": [
-                        {
-                            "name": "fruits_and_vegetables",
-                            "type": "fruits_and_vegetables"
-                        }
-                    ],
+                    "name": "AMAZON.RepeatIntent",
                     "samples": [
-                        "{fruits_and_vegetables}"
-                    ]
-                },
-                {
-                    "name": "CategoryIntent",
-                    "slots": [
-                        {
-                            "name": "category",
-                            "type": "categoryType"
-                        }
-                    ],
-                    "samples": [
-                        "{category}"
+                        "can you please say that again",
+                        "say that again",
+                        "repeat",
+                        "repeat please",
+                        "repeat for me",
+                        "please repeat that",
+                        "can you please repeat that again",
+                        "can you please repeat that"
                     ]
                 }
             ],
@@ -81,6 +81,974 @@
                 {
                     "name": "animals",
                     "values": [
+                        {
+                            "name": {
+                                "value": "pass"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "zebra finch"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "zebra fish"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "zebu"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "zebra"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "yabby"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "yak"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "xenopus"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "whale"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "wagtail"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "woodpecker"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "wolf"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "vulture"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "vole"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "umbrella bird"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ruial"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "tortoise"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "turtle"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "turkey"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "tern"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "shark"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "squirrel"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sea cow"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "seal"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "snake"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "snail"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "seahorse"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "stingray"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "swan"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sheep"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "raven"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "robin"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "rat"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "raccoon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "quail"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "quoll"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "pheasant"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "peahen"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "panda"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "panther"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "prawn"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "penguin"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "pigeon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "peacock"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "parrot"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "oyster"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "owl"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "octopus"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ostrich"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "orangutan"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "needle fish"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "nightingale"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "myna"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "mouse"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "mosquito"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "moose"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "mole"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "mongoose"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "mandrill"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "manta ray"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "macaw"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "loris"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "locust"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lamb"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lizard"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lemur"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lark"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lapwing"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "leopard"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lobster"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "kite"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "komodo dragon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "kookaburra"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "kouprey"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "kudu"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "koala"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "kinkajou"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "kiwi"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "killer whale"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "kangaroo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "jay"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "jerboa"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "jaguar"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "jelly fish"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "jackal"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ibex"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "impala"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "iguana"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "isopod"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ibis"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hornet"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hedgehog"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hare"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hamster"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hawk"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hen"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hummingbird"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "heron"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "horse"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "grasshopper"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "goosander"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "goldfinch"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "gaur"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "gazelle"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "gorilla"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "goose"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "goat"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "frog"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "fly"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "finch"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ferret"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "falcon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "flamingo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "fox"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "fish"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "eland"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "echidna"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "elk"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "eel"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dunlin"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dugong"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dragonfly"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dogfish"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dinosaur"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "degu"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "donkey"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dove"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "duck"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "deer"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dolphin"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cuckoo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "crane"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "chinchilla"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "chamois"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "chameleon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cattle"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "caterpillar"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cassowary"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "caribou"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "caracal"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "capybara"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "camel"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "coyote"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cow"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "chicken"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "chimpanzee"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "conch"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "crab"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "crow"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "boar"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "bluebird"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "bison"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "binturong"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "beaver"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "barracuda"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "badger"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "bull"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "butterfly"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "buffalo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "bee"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "bobcat"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "blue whale"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "bulbul"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "bear"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "bat"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "armadillo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "antelope"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "anteater"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "alpaca"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "polar bear"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "rhinoceros"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sloth bear"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "giraffe"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "baboon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "crocodile"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hippopotamus"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hyena"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "elephant"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "pig"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "monkey"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "aardvark"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ape"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ant"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "albatross"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "anglefish"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "alligator"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "eagle"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "emu"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "nilgai",
+                                "synonyms": [
+                                    "neelgai"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "yes"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "start"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "skip",
+                                "synonyms": [
+                                    "i don't know",
+                                    "pass",
+                                    "skip that"
+                                ]
+                            }
+                        },
                         {
                             "name": {
                                 "value": "cheetah"
@@ -109,162 +1077,6 @@
                         {
                             "name": {
                                 "value": "dog"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "fruits_and_vegetables",
-                    "values": [
-                        {
-                            "name": {
-                                "value": "pepper"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "capcisum"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "garlic"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "ginger"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "eggplant"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "cabbage"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "peas"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "potato"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "onion"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "cassava"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "jackfruit"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "mangoes"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "watermelon"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "coconut"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "pineapple"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "avocado"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "passion fruit"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "sweet potato"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "tomato"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "mango"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "papaya"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "banana"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "apple"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "guava"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "categoryType",
-                    "values": [
-                        {
-                            "name": {
-                                "value": "fruit",
-                                "synonyms": [
-                                    "vegetables and fruits",
-                                    "vegetable and fruit",
-                                    "fruits and vegetables",
-                                    "fruit and vegetable",
-                                    "vegetables",
-                                    "fruits"
-                                ]
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "animal",
-                                "synonyms": [
-                                    "animals",
-                                    "animals birds",
-                                    "animal bird",
-                                    "birds",
-                                    "birds and animals",
-                                    "animals and birds"
-                                ]
                             }
                         }
                     ]
