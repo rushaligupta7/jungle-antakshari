@@ -1,13 +1,11 @@
-// This sample demonstrates handling intents from an Alexa skill using the Alexa Skills Kit SDK (v2).
-// Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
-// session persistence, api calls, and more.
 const Alexa = require('ask-sdk-core');
 const animals=require('./animals.json');
-//const fruits=require('./fruits.json');
 const QuizLogic=require('./QuizLogic');
-const QuizModel=require('./QuizModel');
 var constants= require("./Constants.js");
-//var helpers = require("./helper");
+const helper = require('./Helper');
+const bt7 = require('./ScoreTemplateData.json');
+const persistenceAdapter = require('ask-sdk-s3-persistence-adapter');
+const bt8=require('./gameData.json');
 var score=0;
 var words_answered=[];
 var last_word="";
@@ -20,8 +18,17 @@ const LaunchRequestHandler = {
     },
     handle(handlerInput) {
         
-        speakOutput = 'Welcome to word antakshari ! you will have to say name of object starting with ending letter of last word . Are you ready ?';
-        //how many players are you there ? if you are one , i would love to be your partner ';
+        speakOutput = 'Welcome to jungle antakshari ! you will have to say name of an animal or bird , starting with , last letter , of last word . For every correct answer, you grab 10 points. Are you ready to start ?';
+        if (helper.Helper.supportsAPL(handlerInput))
+        {
+            handlerInput.responseBuilder
+            .addDirective({
+   type: 'Alexa.Presentation.APL.RenderDocument',
+   document: require('./WelcomeTemplate.json'),
+  datasources: require('./WelcomeTemplateData.json'),
+ });
+        }
+        
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)
@@ -37,14 +44,16 @@ const AnimalsAndBirdsIntentHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AnimalsAndBirdsIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         var sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-      
+        
+        const attributesManager = handlerInput.attributesManager;
         if(!sessionAttributes.last_word)
         {   sessionAttributes.last_word=last_word;
         }
         if(!sessionAttributes.score)
         {   sessionAttributes.score=score;
+        console.log(" the scores are "+sessionAttributes.score)
         }
         if(!sessionAttributes.user_slot)
         {   var user_slot="";
@@ -56,43 +65,57 @@ const AnimalsAndBirdsIntentHandler = {
             first_word_array=animals.filter(x => x.start.toLowerCase().trim() === "a");
             //fetch random words
             var first_word=QuizLogic.QuizLogic.getRandomElement(first_word_array[0].words);
+            sessionAttributes.score=0;
             sessionAttributes.last_word=first_word;
+            sessionAttributes.words_answered=[];
             sessionAttributes.words_answered.push(first_word);
+            attributesManager.deletePersistentAttributes();
             handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+             
             return first_word;
         }
-        
+       
         //start of the game flow, alexa answering the first word
         if(!sessionAttributes.words_answered)
         {
             sessionAttributes.words_answered=words_answered;
             var first_word=GetFirstWord();
+            speakOutput=QuizLogic.QuizLogic.getRandomElement(constants.Constants.FIRST_WORD_MESSAGE)+first_word;
+            if(!sessionAttributes.repeat)
+            {
+                sessionAttributes.repeat="";
+            }
+            sessionAttributes.repeat=speakOutput;
+            handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
             return handlerInput.responseBuilder
-            .speak("so lets get started! the first word is "+first_word)
-            .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2)+ first_word[first_word.length-1])
+            .speak(QuizLogic.QuizLogic.ssml(constants.Constants.AUDIO, QuizLogic.QuizLogic.getRandomElement(constants.Constants.INTRO_AUDIO))+speakOutput)
+            .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s")+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2) +first_word[first_word.length-1])
             .getResponse();
         }
         
         var animals_slot=handlerInput.requestEnvelope.request.intent.slots.animals_and_birds.value;
         sessionAttributes.user_slot=animals_slot;
-        //resolutions.resolutionsPerAuthority[0].values[0].value.name;
         handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
         console.log("7");
         
         
-        
-        /*-------------------------------------
         //replay quiz - if user want to play the quiz again
-        */
         
-        //quiz replay-if user wants to continue the quiz
              
         if (QuizLogic.QuizLogic.IsQuizEnded(sessionAttributes)) {
             if (sessionAttributes.user_slot === constants.Constants.YES) {
                 handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
                 var flag = constants.Constants.FALSE;
+                var firstWord=GetFirstWord();
                 sessionAttributes.Checking = constants.Constants.FALSE;
-                var say="lets play the game again! the first word is "+ GetFirstWord();
+                var say=constants.Constants.REPLAY_MESSAGE + firstWord;
+                sessionAttributes.repeat=say;
+                sessionAttributes.words_answered=[];
+                sessionAttributes.last_word=firstWord;
+                sessionAttributes.lifelines=3;
+                sessionAttributes.score=0;
+                sessionAttributes.user_slot="";
+                handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
                 return handlerInput.responseBuilder
                 .speak(say)
                 .reprompt(say)
@@ -102,7 +125,9 @@ const AnimalsAndBirdsIntentHandler = {
             //if user doesn'y wants to play the quiz again
             else if (sessionAttributes.user_slot=== constants.Constants.NO) {
                 flag = constants.Constants.FALSE;
-                say="nice playing with you! see you again!";
+                say=constants.Constants.REPLAY_MESSAGE;
+                sessionAttributes.repeat=say;
+            handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
                 return handlerInput.responseBuilder
                 .speak(say)
                 .withShouldEndSession(constants.Constants.TRUE)
@@ -110,6 +135,8 @@ const AnimalsAndBirdsIntentHandler = {
                     }
             else if (sessionAttributes.Checking) {
                 say = constants.Constants.YES_OR_NO_MSG;
+                sessionAttributes.repeat=say;
+            handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
                 return handlerInput.responseBuilder
                  .speak(say)
                  .reprompt(say)
@@ -119,7 +146,8 @@ const AnimalsAndBirdsIntentHandler = {
       
       
         //to check if user has asked to skip
-        if(animals_slot==="skip")
+       
+        if(animals_slot==="skip" || animals_slot==="pass" )
         {
             const next_letter = animals.filter(x => x.start.toLowerCase().trim() === sessionAttributes.last_word[sessionAttributes.last_word.length-1]);
             var next_animal= QuizLogic.QuizLogic.getRandomElement(next_letter[0].words);
@@ -127,13 +155,15 @@ const AnimalsAndBirdsIntentHandler = {
             {
                 next_animal= QuizLogic.QuizLogic.getRandomElement(next_letter[0].words);
             }
-            speakOutput = next_animal;
+            speakOutput = QuizLogic.QuizLogic.getRandomElement(constants.Constants.SKIP_PROMPTS) +next_animal;
             sessionAttributes.last_word=next_animal;
             sessionAttributes.words_answered.push(next_animal.toLowerCase());
+            sessionAttributes.repeat=speakOutput;
             handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+        
             return handlerInput.responseBuilder
-                .speak(QuizLogic.QuizLogic.getRandomElement(constants.Constants.SKIP_PROMPTS) +next_animal)
-                .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2) +next_animal[next_animal.length-1])
+                .speak(QuizLogic.QuizLogic.ssml(constants.Constants.SAY_AS,constants.Constants.INTERJECTION,(QuizLogic.QuizLogic.getRandomElement(constants.Constants.SKIP_CONS)))+"  "+ QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s") + speakOutput)
+                .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s")+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2) +next_animal[next_animal.length-1])
                 .getResponse();
            
         }
@@ -145,11 +175,13 @@ const AnimalsAndBirdsIntentHandler = {
         console.log("10");
         if(!check_element[0].words.includes(animals_slot.toLowerCase()))
         {   
-            console.log("11");
-            console.log(animals_slot+" is not valid");
+           
+            speakOutput=constants.Constants.INVALID ;
+            sessionAttributes.repeat=speakOutput;
+            handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
             return handlerInput.responseBuilder
-            .speak("this is not a valid animal or bird! ")
-            .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2)+ sessionAttributes.last_word[sessionAttributes.last_word.length-1])
+            .speak(QuizLogic.QuizLogic.ssml(constants.Constants.SAY_AS,constants.Constants.INTERJECTION,QuizLogic.QuizLogic.getRandomElement(constants.Constants.SKIP_CONS))+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s") +speakOutput)
+            .reprompt(QuizLogic.QuizLogic.ssml(QuizLogic.QuizLogic.getRandomElement(constants.Constants.SKIP_AUDIO))+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s")+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2)+ sessionAttributes.last_word[sessionAttributes.last_word.length-1])
             .getResponse();
         }
         
@@ -158,9 +190,12 @@ const AnimalsAndBirdsIntentHandler = {
         {
             console.log("11b");
             console.log("duplicate");
+            speakOutput=QuizLogic.QuizLogic.getRandomElement(constants.Constants.DUPLICATE_MESSAGE);
+            sessionAttributes.repeat=speakOutput;
+            handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
             return handlerInput.responseBuilder
-            .speak("this word has been used! come up with something new")
-            .reprompt('no cheating haaa , now start with '+ sessionAttributes.last_word[sessionAttributes.last_word.length-1])
+            .speak(QuizLogic.QuizLogic.ssml(constants.Constants.SAY_AS,constants.Constants.INTERJECTION,QuizLogic.QuizLogic.getRandomElement(constants.Constants.SKIP_CONS))+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s") +speakOutput)
+            .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s")+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2) + sessionAttributes.last_word[sessionAttributes.last_word.length-1])
             .getResponse();
         }
         
@@ -174,26 +209,50 @@ const AnimalsAndBirdsIntentHandler = {
         
          //to validate that user says word starting with last letter of previous word
         console.log("8");
-        if(sessionAttributes.words_answered.length>1)
+        if(sessionAttributes.words_answered.length>=1)
         {   console.log("8a");
             if(!QuizLogic.QuizLogic.AnswerValidation(sessionAttributes))
             {console.log("8b");
-            speakOutput ="ooppsss....your word does not start with "+sessionAttributes.last_word[sessionAttributes.last_word.length-1]+" . "+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"2s")+ ` you are left with ${sessionAttributes.lifelines-1}  lifelines . ` ;
+            speakOutput =QuizLogic.QuizLogic.ssml(constants.Constants.SAY_AS,constants.Constants.INTERJECTION,QuizLogic.QuizLogic.getRandomElement(constants.Constants.SKIP_CONS))+ QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s") +QuizLogic.QuizLogic.getRandomElement(constants.Constants.WRONG) +sessionAttributes.last_word[sessionAttributes.last_word.length-1]+" . "+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s")+ ` you are left with ${sessionAttributes.lifelines-1}  lifelines . ` ;
             sessionAttributes.lifelines=sessionAttributes.lifelines-1;
+            sessionAttributes.repeat=speakOutput;
             handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
             
             //if lifelines are finished , end the game and declare scores. ask if user wants to replay the game
              if(sessionAttributes.lifelines===0)
-            {
+            {   speakOutput=constants.Constants.RESULT_MESSAGE+sessionAttributes.score+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s")+constants.Constants.END_MESSAGE + "would you like to play again? " ; 
+                sessionAttributes.repeat=speakOutput;
+                handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+        const scoreAttributes = { "score" :sessionAttributes.score} ;
+        
+attributesManager.setPersistentAttributes(scoreAttributes);
+await attributesManager.savePersistentAttributes();
+                
+                bt7.bodyTemplate6Data.textContent.primaryText.text=constants.Constants.RESULT_MESSAGE+sessionAttributes.score;
+                //bt7.bodyTemplate7Data.image.sources[0].url=imgurl.Image[random].url;
+                
+                
+                             if (helper.Helper.supportsAPL(handlerInput))
+                    {
+                        handlerInput.responseBuilder
+                        .addDirective({
+               type: 'Alexa.Presentation.APL.RenderDocument',
+               document: require('./WelcomeTemplate.json'),
+              datasources: require('./ScoreTemplateData.json'),
+             });
+                    }
+                            
+                            
+                
                 return handlerInput.responseBuilder
-                .speak(speakOutput+QuizLogic.QuizLogic.ssml(constants.Constants.EMPHASIS,"moderate",constants.Constants.RESULT_MESSAGE)+sessionAttributes.score+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"2s")+constants.Constants.END_MESSAGE + "would you like to play again? ")
-                .reprompt('would you like to play again? ')
+                .speak(QuizLogic.QuizLogic.ssml(constants.Constants.SAY_AS,constants.Constants.INTERJECTION,QuizLogic.QuizLogic.getRandomElement(constants.Constants.SCORE_CONS))+ QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s") +speakOutput)
+                .reprompt(' would you like to play again? ')
                 //.withShouldEndSession(true)
                 .getResponse();
             }
             return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2)+ sessionAttributes.last_word[sessionAttributes.last_word.length-1])
+            .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s")+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2) + sessionAttributes.last_word[sessionAttributes.last_word.length-1])
             .getResponse();
             
             }
@@ -215,13 +274,71 @@ const AnimalsAndBirdsIntentHandler = {
         speakOutput = next_animal;
         sessionAttributes.last_word=next_animal;
         sessionAttributes.words_answered.push(next_animal.toLowerCase());
+        sessionAttributes.speak=speakOutput;
+        speakOutput+=" ";
         handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+         bt8.bodyTemplate6Data.textContent.primaryText.text=constants.Constants.DISPLAY_LAST_WORD + sessionAttributes.last_word;
+         if (helper.Helper.supportsAPL(handlerInput))
+        {
+            handlerInput.responseBuilder
+            .addDirective({
+   type: 'Alexa.Presentation.APL.RenderDocument',
+   document: require('./WelcomeTemplate.json'),
+  datasources: require('./gameData.json'),
+ });
+        }
         return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE2)+sessionAttributes.last_word[sessionAttributes.last_word.length-1])
+            .speak(QuizLogic.QuizLogic.ssml(constants.Constants.SAY_AS,constants.Constants.INTERJECTION,QuizLogic.QuizLogic.getRandomElement(constants.Constants.SPEECHCONS))+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s")+speakOutput)
+            .reprompt(QuizLogic.QuizLogic.getRandomElement(constants.Constants.REPROMT_MESSAGE1)+QuizLogic.QuizLogic.ssml(constants.Constants.BREAK,"1s")+sessionAttributes.last_word[sessionAttributes.last_word.length-1])
             .getResponse();
     }
 };
+
+
+
+
+
+
+const WelcomeBackRequestHandler = {
+   canHandle(handlerInput) {
+       
+
+       const attributesManager = handlerInput.attributesManager;
+       const sessionAttributes = attributesManager.getSessionAttributes() || {};
+
+       const score = sessionAttributes.hasOwnProperty('score') ? sessionAttributes.score : 0;
+
+       return handlerInput.requestEnvelope.request.type === 'LaunchRequest' && score;
+
+   },
+   handle(handlerInput) {
+      const attributesManager = handlerInput.attributesManager;
+       const sessionAttributes = attributesManager.getSessionAttributes() || {};
+       handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+
+       var score = sessionAttributes.hasOwnProperty('score') ? sessionAttributes.score : 0;
+       speakOutput=" Welcome back to the jungle antakshari. Your last score was "+score+". shall we start the game? "
+       bt7.bodyTemplate6Data.textContent.primaryText.text=speakOutput;
+       sessionAttributes.repeat=speakOutput;
+       //attributesManager.deletePersistentAttributes();
+       if (helper.Helper.supportsAPL(handlerInput))
+        {
+            handlerInput.responseBuilder
+            .addDirective({
+   type: 'Alexa.Presentation.APL.RenderDocument',
+   document: require('./WelcomeTemplate.json'),
+  datasources: require('./ScoreTemplateData.json'),
+ });
+        }
+           
+       return handlerInput.responseBuilder
+           .speak(speakOutput)
+           .reprompt("Try beating your last score . say yes if you are ready to start")
+           .withShouldEndSession(false)
+           .getResponse();
+   }
+};
+
 
 
 
@@ -231,7 +348,7 @@ const HelpIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        speakOutput = 'you will have to answer a animal or bird whose name starts with last lette of previous word. for example, if i say cat, you have to say a creature starting with T . you will have three lifelines . for every correct anwser, you get a plus ten . ';
+        speakOutput = 'you will have to answer a animal or bird whose name starts with last letter of previous word. for example, if i say cat, you have to say a creature starting with T . you will have three lifelines . for every correct answer, you get a plus ten . ';
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -252,6 +369,24 @@ const CancelAndStopIntentHandler = {
             .getResponse();
     }
 };
+
+
+const RepeatIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.RepeatIntent');
+    },
+    handle(handlerInput) {
+        var sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+        speakOutput = sessionAttributes.repeat;
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .withShouldEndSession(false)
+            .getResponse();
+    }
+};
+
+
 const SessionEndedRequestHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
@@ -300,17 +435,39 @@ const ErrorHandler = {
 };
 
 // The SkillBuilder acts as the entry point for your skill, routing all request and response
+const LoadScoreInterceptor = {
+   async process(handlerInput) {
+       const attributesManager = handlerInput.attributesManager;
+       const sessionAttributes = await attributesManager.getPersistentAttributes() || {};
+
+       const score = sessionAttributes.hasOwnProperty('score') ? sessionAttributes.score : 0;
+       if (score) {
+           attributesManager.setSessionAttributes(sessionAttributes);
+       }
+   }
+};
+
+
+
 // payloads to the handlers above. Make sure any new handlers or interceptors you've
 // defined are included below. The order matters - they're processed top to bottom.
 exports.handler = Alexa.SkillBuilders.custom()
+.withPersistenceAdapter(
+new persistenceAdapter.S3PersistenceAdapter({bucketName:process.env.S3_PERSISTENCE_BUCKET})
+)
     .addRequestHandlers(
+        WelcomeBackRequestHandler,
         LaunchRequestHandler,
         AnimalsAndBirdsIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
+        RepeatIntentHandler,
         SessionEndedRequestHandler,
         IntentReflectorHandler, // make sure IntentReflectorHandler is last so it doesn't override your custom intent handlers
     )
+    .addRequestInterceptors(
+    LoadScoreInterceptor
+)
     .addErrorHandlers(
         ErrorHandler,
     )
