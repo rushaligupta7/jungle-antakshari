@@ -3,6 +3,7 @@ const animals=require('./animals.json');
 const QuizLogic=require('./QuizLogic');
 var constants= require("./Constants.js");
 const helper = require('./Helper');
+const bt6= require('./gameEndData.json');
 const bt7 = require('./ScoreTemplateData.json');
 const persistenceAdapter = require('ask-sdk-s3-persistence-adapter');
 const bt8=require('./gameData.json');
@@ -128,6 +129,15 @@ const AnimalsAndBirdsIntentHandler = {
                 say=constants.Constants.REPLAY_MESSAGE;
                 sessionAttributes.repeat=say;
             handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+             if (helper.Helper.supportsAPL(handlerInput))
+        {
+            handlerInput.responseBuilder
+            .addDirective({
+   type: 'Alexa.Presentation.APL.RenderDocument',
+   document: require('./WelcomeTemplate.json'),
+  datasources: require('./gameEndData.json'),
+ });
+        }
                 return handlerInput.responseBuilder
                 .speak(say)
                 .withShouldEndSession(constants.Constants.TRUE)
@@ -364,6 +374,15 @@ const CancelAndStopIntentHandler = {
     },
     handle(handlerInput) {
         speakOutput = 'it was nice playing with you ! Goodbye!';
+        
+         if (helper.Helper.supportsAPL(handlerInput))
+        {
+            handlerInput.responseBuilder
+            .addDirective({
+   type: 'Alexa.Presentation.APL.RenderDocument',
+   document: require('./WelcomeTemplate.json'),
+  datasources: require('./gameEndData.json'),
+ });}
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .getResponse();
